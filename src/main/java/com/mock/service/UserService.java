@@ -13,4 +13,6 @@ public interface UserService {
 
 	void saveRegistration(User user);
 
+	User getUserId(String name);
+
 }

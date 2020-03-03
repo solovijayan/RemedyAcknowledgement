@@ -33,6 +33,10 @@ public class Roles {
 		this.id = id;
 	}
 
+	public Roles() {
+		super();
+	}
+
 	public String getRoles() {
 		return roles;
 	}

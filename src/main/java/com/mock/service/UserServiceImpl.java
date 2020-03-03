@@ -45,4 +45,10 @@ public class UserServiceImpl implements UserService {
 
 	}
 
+	@Override
+	public User getUserId(String name) {
+		User user = userRepository.findByUserName(name);
+		return user;
+	}
+
 }

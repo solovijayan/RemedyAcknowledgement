@@ -7,7 +7,9 @@ import com.mock.model.Ticket;
 public interface TicketService {
 
 	Long getUserId(String userName);
-	
+
 	List<Ticket> findAlltickets();
+
+	void createTicket(Ticket ticket);
 
 }

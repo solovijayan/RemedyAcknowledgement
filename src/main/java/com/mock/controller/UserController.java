@@ -1,6 +1,8 @@
 package com.mock.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -58,12 +60,12 @@ public class UserController {
 	 * @param model
 	 * @return login page with error message
 	 */
-	@GetMapping(value = "/loginError")
+	/*@GetMapping(value = "/loginError")
 	public String loginError(ModelMap model) {
 		logger.info("Entered failure authenticatin url");
 		model.addAttribute("error", "Your username or password is invalid.");
 		return "login";
-	}
+	}*/
 
 	/**
 	 * @param model
@@ -96,7 +98,15 @@ public class UserController {
 		logger.info(role);
 		if (role.equals("[user]")) {
 			logger.info("In home page");
-			return new ModelAndView("userhome");
+//			return new ModelAndView("userhome");
+			List<Ticket> ticketList = new ArrayList<>();
+			String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+			Long userId = ticketService.getUserId(userName);
+			if (userId != null) {
+				ticketList = ticketService.findAlltickets().stream().filter(x -> x.getUser().getUserId() == userId)
+						.collect(Collectors.toList());
+			}
+			return new ModelAndView("userhome", "ticketList", ticketList);
 		} else {
 			List<Ticket> ticketList = null;
 			return new ModelAndView("adminhome", "ticketList", ticketList);

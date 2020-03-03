@@ -42,11 +42,11 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
 				// for every request i.e /home, /add .. anything it will be
 				// authenticated
 				.anyRequest().authenticated().and().formLogin().loginPage("/login").defaultSuccessUrl("/home", true)
-				.failureUrl("/loginError").permitAll()
+//				.failureUrl("/loginError").permitAll()
 				.and().logout()
-				.logoutRequestMatcher(
-                        new AntPathRequestMatcher("/login?logout")
-                )
+//				.logoutRequestMatcher(
+//                        new AntPathRequestMatcher("/login?logout")
+//                )
 				// .invalidateHttpSession(true)
 				// .deleteCookies("JSESSIONID")
 				.permitAll();
@@ -64,9 +64,9 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver"); 
-		dataSource.setUrl("jdbc:mysql://localhost:3306/shop");
+		dataSource.setUrl("jdbc:mysql://localhost:3306/remedy");
 		dataSource.setUsername("root");
-		dataSource.setPassword("1234");
+		dataSource.setPassword("root");
 		return dataSource;
 	}
 

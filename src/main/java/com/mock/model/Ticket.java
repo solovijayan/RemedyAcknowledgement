@@ -16,28 +16,28 @@ public class Ticket {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long tikcetId;
-	private Enum<TicketType> ticketType;
+	private Long ticketId;
+	private String ticketType;
 	@NotEmpty(message = "Description field should not be empty")
 	private String ticketDescription;
-	private Enum<TicketStatus> ticketStatus;
+	private String ticketStatus;
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
 
 	public Long getTikcetId() {
-		return tikcetId;
+		return ticketId;
 	}
 
-	public void setTikcetId(Long tikcetId) {
-		this.tikcetId = tikcetId;
+	public void setTikcetId(Long ticketId) {
+		this.ticketId = ticketId;
 	}
 
-	public Enum<TicketType> getTicketType() {
+	public String getTicketType() {
 		return ticketType;
 	}
 
-	public void setTicketType(Enum<TicketType> ticketType) {
+	public void setTicketType(String ticketType) {
 		this.ticketType = ticketType;
 	}
 
@@ -49,11 +49,11 @@ public class Ticket {
 		this.ticketDescription = ticketDescription;
 	}
 
-	public Enum<TicketStatus> getTicketStatus() {
+	public String getTicketStatus() {
 		return ticketStatus;
 	}
 
-	public void setTicketStatus(Enum<TicketStatus> ticketStatus) {
+	public void setTicketStatus(String ticketStatus) {
 		this.ticketStatus = ticketStatus;
 	}
 
