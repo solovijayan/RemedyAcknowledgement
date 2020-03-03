@@ -19,6 +19,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mock.model.Ticket;
@@ -90,10 +91,11 @@ public class UserController {
 	public ModelAndView HomePage(Model model) {
 		logger.info("In home page");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
 		String role = auth.getAuthorities().toString();
 		logger.info(role);
 		if (role.equals("[user]")) {
-
+			logger.info("In home page");
 			return new ModelAndView("userhome");
 		} else {
 			List<Ticket> ticketList = null;
