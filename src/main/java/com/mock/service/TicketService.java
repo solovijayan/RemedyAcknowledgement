@@ -11,5 +11,12 @@ public interface TicketService {
 	List<Ticket> findAlltickets();
 
 	void createTicket(Ticket ticket);
+	
+	public List<Ticket> getTicketList();
+
+	public Ticket getTicket(Long ticketId);
+
+	public void updateTicket(Ticket ticket);
+
 
 }

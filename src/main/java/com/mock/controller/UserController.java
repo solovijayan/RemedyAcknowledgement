@@ -60,12 +60,12 @@ public class UserController {
 	 * @param model
 	 * @return login page with error message
 	 */
-	/*@GetMapping(value = "/loginError")
-	public String loginError(ModelMap model) {
-		logger.info("Entered failure authenticatin url");
-		model.addAttribute("error", "Your username or password is invalid.");
-		return "login";
-	}*/
+	/*
+	 * @GetMapping(value = "/loginError") public String loginError(ModelMap
+	 * model) { logger.info("Entered failure authenticatin url");
+	 * model.addAttribute("error", "Your username or password is invalid.");
+	 * return "login"; }
+	 */
 
 	/**
 	 * @param model
@@ -93,12 +93,12 @@ public class UserController {
 	public ModelAndView HomePage(Model model) {
 		logger.info("In home page");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		
+
 		String role = auth.getAuthorities().toString();
 		logger.info(role);
 		if (role.equals("[user]")) {
 			logger.info("In home page");
-//			return new ModelAndView("userhome");
+			// return new ModelAndView("userhome");
 			List<Ticket> ticketList = new ArrayList<>();
 			String userName = SecurityContextHolder.getContext().getAuthentication().getName();
 			Long userId = ticketService.getUserId(userName);
@@ -108,8 +108,9 @@ public class UserController {
 			}
 			return new ModelAndView("userhome", "ticketList", ticketList);
 		} else {
-			List<Ticket> ticketList = null;
-			return new ModelAndView("adminhome", "ticketList", ticketList);
+			List<Ticket> ticket = ticketService.getTicketList();
+			model.addAttribute("ticketlist", ticket);
+			return new ModelAndView("ticketlist", "ticketList", ticket);
 		}
 	}
 

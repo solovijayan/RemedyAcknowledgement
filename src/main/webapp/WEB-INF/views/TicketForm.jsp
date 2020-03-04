@@ -42,7 +42,7 @@
 	<form:form method="POST" modelAttribute="ticket" class="ticketForm"
 		action="ticket">
 
-		<div class="container-fluid">
+		<div class="container">
 			<c:if test="${not empty message}">
 
 				<div class="alert alert-success alert-dismissible">

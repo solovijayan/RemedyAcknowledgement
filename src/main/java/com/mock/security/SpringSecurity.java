@@ -51,7 +51,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
 				// .deleteCookies("JSESSIONID")
 				.permitAll();
 		
-//		http.csrf().disable();
+		http.csrf().disable();
 
 	}
 
@@ -66,7 +66,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver"); 
 		dataSource.setUrl("jdbc:mysql://localhost:3306/remedy");
 		dataSource.setUsername("root");
-		dataSource.setPassword("root");
+		dataSource.setPassword("mysql");
 		return dataSource;
 	}
 

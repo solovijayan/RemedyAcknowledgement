@@ -45,4 +45,31 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 
+
+	@Override
+	public List<Ticket> getTicketList() {
+		List<Ticket> ticketlist = (List<Ticket>) ticketRepository.getTickets();
+		return ticketlist;
+
+	}
+
+	public Ticket getTicket(Long ticketId) {
+		Ticket tickets = new Ticket();
+		Ticket ticket = ticketRepository.findOne(ticketId);
+		/*tickets.setTicketStatus(ticket.getTicketStatus());
+		tickets.setTikcetId(ticketId);
+		tickets.setUser(ticket.getUser());
+		tickets.setTicketDescription(ticket.getTicketDescription());*/
+		/*ticketRepository.save(tickets);*/
+		return ticket;
+	}
+
+	@Override
+	public void updateTicket(Ticket ticket) {
+	
+		ticketRepository.updateTicket(ticket.getTicketStatus(),ticket.getTicketId());
+		
+	}
+
+
 }

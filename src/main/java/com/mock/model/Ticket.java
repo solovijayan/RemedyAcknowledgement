@@ -25,11 +25,11 @@ public class Ticket {
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	public Long getTikcetId() {
+	public Long getTicketId() {
 		return ticketId;
 	}
 
-	public void setTikcetId(Long ticketId) {
+	public void setTicketId(Long ticketId) {
 		this.ticketId = ticketId;
 	}
 
