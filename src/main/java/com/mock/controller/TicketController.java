@@ -2,6 +2,7 @@ package com.mock.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
@@ -17,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -34,14 +36,12 @@ public class TicketController {
 
 	@Autowired
 	TicketService ticketService;
-	
+
 	@Autowired
 	UserService userService;
 
-
 	private static final Logger logger = LogManager.getLogger(TicketController.class);
-	
-	
+
 	@GetMapping(value = "ticket")
 	public ModelAndView ticketForm(Model model, HttpSession session) {
 		ModelAndView mav = new ModelAndView("TicketForm");
@@ -61,27 +61,35 @@ public class TicketController {
 			mav.setViewName("TicketForm");
 			return mav;
 		} else {
-			logger.info("In save ticket: "+session.getAttribute("user"));
-			ticket.setUser((User)session.getAttribute("user"));
+			logger.info("In save ticket: " + session.getAttribute("user"));
+			ticket.setUser((User) session.getAttribute("user"));
 			ticketService.createTicket(ticket);
 			mav.addObject("message", "Ticket created Successfully!");
 		}
 		return new ModelAndView("redirect:/home");
 	}
-	
-	//added this in usercontroller
-	/*@GetMapping("/view-tickets")
-	public ModelAndView showUserTicket() {
-		List<Ticket> ticketList = new ArrayList<>();
-		String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-		Long userId = ticketService.getUserId(userName);
-		if (userId != null) {
-			ticketList = ticketService.findAlltickets().stream().filter(x -> x.getUser().getUserId() == userId)
-					.collect(Collectors.toList());
-		}
-		return new ModelAndView("userhome", "ticketList", ticketList);
-	}*/
-	
-	
+
+	@GetMapping("/tickets")
+	public ModelAndView inventoryList(Map<String, Object> map, Model model) {
+		map.put("ticketlist", new Ticket());
+		List<Ticket> ticket = ticketService.getTicketList();
+		model.addAttribute("ticketlist", ticket);
+		return new ModelAndView("ticketlist");
+	}
+
+	@GetMapping(value = "/editticket")
+	public ModelAndView editTicket(@RequestParam("getId") Long ticketId, Model model) {
+		Ticket ticket = ticketService.getTicket(ticketId);
+		model.addAttribute("ticket", ticket);
+		return new ModelAndView("editstatus");
+
+	}
+
+	@PostMapping(value = "/updateticket")
+	public ModelAndView updateTicket(@ModelAttribute("ticket") Ticket ticket, Model model) {
+		ticketService.updateTicket(ticket);
+		return new ModelAndView("redirect:/tickets");
+
+	}
 
 }
