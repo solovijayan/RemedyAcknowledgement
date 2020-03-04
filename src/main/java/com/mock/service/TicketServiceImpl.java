@@ -2,10 +2,13 @@ package com.mock.service;
 
 import java.util.List;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mock.exception.TicketNotFoundException;
 import com.mock.model.Ticket;
 import com.mock.model.User;
 import com.mock.repository.TicketRepository;
@@ -18,7 +21,7 @@ public class TicketServiceImpl implements TicketService {
 	TicketRepository ticketRepository;
 	@Autowired
 	UserRepository userRepository;
-
+	private static final Logger logger = LogManager.getLogger(TicketServiceImpl.class);
 	@Override
 	public Long getUserId(String userName) {
 		Long userId = null;
@@ -28,7 +31,7 @@ public class TicketServiceImpl implements TicketService {
 				userId = user.getUserId();
 			}
 		} catch (Exception e) {
-
+			logger.info(e.getMessage());
 		}
 		return userId;
 	}
@@ -37,14 +40,12 @@ public class TicketServiceImpl implements TicketService {
 	public List<Ticket> findAlltickets() {
 		return (List<Ticket>) ticketRepository.findAll();
 	}
-	
+
 	@Override
 	public void createTicket(Ticket ticket) {
-		
+
 		ticketRepository.save(ticket);
 	}
-
-
 
 	@Override
 	public List<Ticket> getTicketList() {
@@ -54,22 +55,24 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	public Ticket getTicket(Long ticketId) {
-		Ticket tickets = new Ticket();
+
 		Ticket ticket = ticketRepository.findOne(ticketId);
-		/*tickets.setTicketStatus(ticket.getTicketStatus());
-		tickets.setTikcetId(ticketId);
-		tickets.setUser(ticket.getUser());
-		tickets.setTicketDescription(ticket.getTicketDescription());*/
-		/*ticketRepository.save(tickets);*/
+		if (ticket == null) {
+			throw new TicketNotFoundException("Ticket Id is Invalid");
+		}
 		return ticket;
 	}
 
 	@Override
 	public void updateTicket(Ticket ticket) {
-	
-		ticketRepository.updateTicket(ticket.getTicketStatus(),ticket.getTicketId());
-		
-	}
 
+		Ticket ticket1 = ticketRepository.findOne(ticket.getTicketId());
+		if (ticket1 == null) {
+			throw new TicketNotFoundException("Ticket Id is Invalid");
+		} else {
+			ticketRepository.updateTicket(ticket.getTicketStatus(), ticket.getTicketId());
+		}
+
+	}
 
 }

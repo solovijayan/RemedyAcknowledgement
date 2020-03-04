@@ -21,7 +21,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mock.model.Ticket;
@@ -97,7 +96,7 @@ public class UserController {
 		String role = auth.getAuthorities().toString();
 		logger.info(role);
 		if (role.equals("[user]")) {
-			logger.info("In home page");
+			logger.info("In user home page");
 			// return new ModelAndView("userhome");
 			List<Ticket> ticketList = new ArrayList<>();
 			String userName = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -108,6 +107,7 @@ public class UserController {
 			}
 			return new ModelAndView("userhome", "ticketList", ticketList);
 		} else {
+			logger.info("In admin home page");
 			List<Ticket> ticket = ticketService.getTicketList();
 			model.addAttribute("ticketlist", ticket);
 			return new ModelAndView("ticketlist", "ticketList", ticket);
